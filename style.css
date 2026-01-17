@@ -1,0 +1,32 @@
+body {
+	font-family: 'Times New Roman';
+	line-height: 1.6;
+}
+
+.content {
+	margin: 40px auto;
+	max-width: 750px;
+	padding: 0 10px;
+}
+
+.title {
+	margin: 40px auto;
+	max-width: 750px;
+	padding: 0 10px;
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+img {
+	display: block; margin: 0 auto;
+}
+
+.bottomleft {
+	position: absolute;
+	top: 1500px;
+	left: 30px;
+}
+
+a, a:visited, a:hover, a:active {
+    color: blue;
+}
