@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- styling bs -->
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    * { margin: 0; padding: 0; }
+    body { overflow: hidden; }
+  </style>
+  <title>b's p</title>  
+</head>
+
+
+<body>
+  <p id="scoreboard" style="position: absolute; top:50px; right: 50px; font-size: 40px;">0 - 0</p>
+  <p id="tickcount" style="position: absolute; top: 250px"></p>
+  <p id="infoboard" style="position: absolute; bottom: 10vh; right: 2vw; font-size: .9vw"> </p>
+  <p style="position: absolute; bottom: 0px; right: 20px; cursor: pointer;" onclick="showInfo = !showInfo">Info</p>
+  <h1 style="position: absolute; top: 20px; left: 20px;"><a href="/index.html" class="title">Boswell's Park</a></h1>
+
+
+  <canvas id="pong"></canvas>
+  <script>
+    // setup the screen to be written on
+    const canvas = document.getElementById('pong');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let windowwidth = window.innerWidth;
+    let windowheight = window.innerHeight;
+
+    let leftwall = windowwidth / 3;
+    let rightwall = windowwidth * 2 / 3;
+
+    // pong ball info - x and y are in px from 0,0 = top left, size is radius of circle in px, vx vy are as expected
+  	let pong = { 
+      drawn: true,
+  	  x: (leftwall + rightwall) / 2, 
+  	  y: windowheight / 2, 
+  	  size: 15, 
+
+	    vy: -9,
+	    vx: 2,
+
+      spawnedin: false
+	   };   
+
+
+     let enemypaddle = {
+
+      movedleft: false,
+      movedright: false,
+      
+      len: 60,
+      height: 15,
+
+      speed: 8,
+
+    }
+    enemypaddle.x = (leftwall + rightwall) / 2 - enemypaddle.len / 2;
+    enemypaddle.y = 30 + enemypaddle.height;
+
+    // player's paddle
+    let playerpaddle = {
+      
+      movedleft: false,
+      movedright: false,
+      len: 60,
+      height: 15,
+
+      speed: 8,
+
+    }
+    playerpaddle.x = (leftwall + rightwall) / 2 - playerpaddle.len / 2;
+    playerpaddle.y = windowheight - 30 - playerpaddle.height;
+
+
+    // keys is a list of all pressed keys, keysPressed is a list of all pressed keys which weren't pressed last frame (keysPressed is reset in the game loop)
+  	let keys = {};
+  	let keysPressed = {};
+
+  	window.addEventListener('keydown', e => {
+  	  if (!keys[e.key]) {
+  	    keysPressed[e.key] = true;
+  	  }
+  	  keys[e.key] = true;
+  	});
+  	window.addEventListener('keyup', e => keys[e.key] = false);
+
+    let animationtick = -1;
+
+    const scoreElement = document.getElementById('scoreboard');
+    let pscore = 0;
+    let escore = 0;
+
+    const tickcountElement = document.getElementById('tickcount');
+    let ticknum = 0;
+
+    const infoElement = document.getElementById('infoboard');
+
+    let showInfo = false;
+
+    //gamerules
+    // g if need be
+
+    let ay = 0;
+    let ax = 0;
+
+    let boucecooldown = 0;
+    let xmanip = true;
+    let debug = false;
+    let difficulty = .5;
+
+    let speedup = true;
+    let paddlespeed = 1;
+
+    let spawntick = 0;
+    let spawntickfull = 150;
+
+    let twoplayer = false;
+
+
+    // Game loop
+    function gameLoop() {
+
+
+
+
+      if (keysPressed['2']){
+        if (twoplayer) {
+          twoplayer = false;
+        } else {
+          twoplayer = true;
+      }
+    }
+      if (keysPressed['c']) {
+        if (debug) {
+          tickcountElement.textContent = ``;
+          debug = false;
+        } else {
+          debug = true;
+        }
+      }
+      if (keys['p']) {
+        leftwall = windowwidth * 2 / 5;
+        rightwall = windowwidth * 3 / 5;
+      }
+      if (keys['o']) {
+        leftwall = windowwidth / 3;
+        rightwall = windowwidth * 2 / 3;
+      }
+      if (keys['i']) {
+        leftwall = windowwidth / 5;
+        rightwall = windowwidth * 4 / 5;
+      }
+
+      if (showInfo) {
+        infoElement.innerHTML = 
+        `p,o,i: arena size from smallest to largest<br>
+        2: toggle 2 player mode (a, d to control paddle 2)<br>
+        c: toggle debug mode`;
+      } else {
+        infoElement.innerHTML = '';
+      }
+
+
+      if (!pong.spawnedin){
+        spawntick += 1;
+        pong.x = (leftwall + rightwall) / 2;
+  	    pong.y = windowheight / 2;
+      }
+      if (spawntick > spawntickfull){
+        pong.spawnedin = true;
+  	    pong.size=  15;
+	      pong.vy = (Math.random() * 5 + 5) * (Math.floor(Math.random()) * 2 - 1);
+	      pong.vx = Math.random() * 10 - 5;
+        spawntick = 0;
+        pong.drawn = true;
+        pong.x = (leftwall + rightwall) / 2;
+  	    pong.y = windowheight / 2;
+      } else {
+        if (Math.floor(spawntick / 30) % 2 == 0){
+          pong.drawn = true;
+        } else {
+          pong.drawn = false;
+        }
+
+      }
+
+      if (speedup) {
+        if (ticknum % 250 == 0 && Math.abs(pong.vy) < 20){
+          pong.vy *= 1.05;
+          pong.vx *= 1.05;
+        }
+      }
+
+      ticknum += 1;
+      if (debug) {
+        tickcountElement.textContent = `Tick: ${ticknum}`;
+      }
+
+
+      pong.vy += ay;
+      pong.vx += ax;
+
+      // realistic-ish motion
+      // pong.vx *= .989;
+      // pong.vy *= .989;
+
+
+      pong.x += pong.vx;
+      pong.y += pong.vy;
+
+      if (debug) {
+        if (keysPressed['q']) pong.vx += 5;
+        if (keysPressed['w']) pong.vy -= 30;
+        if (keysPressed['e']) playerpaddle.len += 5;
+      }
+
+
+
+
+
+
+
+      let rectangles = [[playerpaddle.x, playerpaddle.x + playerpaddle.len, playerpaddle.y, playerpaddle.y + playerpaddle.height, playerpaddle.len], [enemypaddle.x, enemypaddle.x + enemypaddle.len, enemypaddle.y + enemypaddle.height / 2, enemypaddle.y + enemypaddle.height, enemypaddle.len]];
+      let edx = -1;
+      let consuequences = [[-1], [-1]];
+      let points = [];
+      //player paddle collision x and y are top left of paddle
+      //if circle in top half of rctangle
+
+      for (let i = 0; i < rectangles.length; i++) {
+        let closestonerectx = Math.min(Math.max(pong.x, rectangles[i][0]), rectangles[i][1]);
+        let closestonerecty = Math.min(Math.max(pong.y, rectangles[i][2]), rectangles[i][3]);
+        points.push([closestonerectx, closestonerecty]);
+
+
+        let dx = pong.x - closestonerectx;
+        
+        if (i == 1){
+          edx = dx; // for enemy ai
+        }
+
+        let dy = pong.y - closestonerecty;
+
+
+      // if circle overlaps with top half of player paddle
+        if ((Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)) < pong.size) && boucecooldown == 0) {
+
+          if (xmanip) {
+
+                pong.vy *= -1;
+                boucecooldown = 5;
+
+                let stretch = pong.x - rectangles[i][0];
+
+                let normalizeddx = (stretch / rectangles[i][4]) - .5;
+      
+                pong.vx = normalizeddx * 6;
+
+                pong.vx *= Math.max(pong.vy / 20, 1);
+
+                if (playerpaddle.movedleft) pong.vx -= 8;
+                if (playerpaddle.movedright) pong.vx += 8;
+          }
+        } 
+      }
+      
+
+
+
+
+      // player paddle movement
+      if (keys['ArrowLeft']) {
+        playerpaddle.movedleft = true;
+        playerpaddle.x -= (playerpaddle.speed * paddlespeed);
+      }
+      if (keys['ArrowRight']) {
+        playerpaddle.x += playerpaddle.speed * paddlespeed;
+        playerpaddle.movedright = true;
+      }
+      
+      // enemy paddle movement
+      if (twoplayer) {
+        if (keys['a']) {
+        enemypaddle.movedleft = true;
+        enemypaddle.x -= (enemypaddle.speed * paddlespeed);
+      }
+      if (keys['d']) {
+        enemypaddle.x += (enemypaddle.speed * paddlespeed);
+        enemypaddle.movedright = true;
+      }
+      } else {
+        let epaddlemid = enemypaddle.x + (enemypaddle.len / 2);
+        let dif = pong.x - epaddlemid;
+        let movement = dif * difficulty * paddlespeed;
+        if (movement > 0) { 
+          movement = Math.min(enemypaddle.speed, movement);
+        } else {
+          movement = Math.max((enemypaddle.speed * - 1), movement);
+        }
+        enemypaddle.x += movement;
+      }
+
+      // collision detection between ball and walls - pong.size is ball's radius
+      if ((pong.x + pong.size) > (rightwall)) { // right
+        pong.vx *= -1;
+        pong.x = (rightwall - pong.size);
+
+      }
+      if ((pong.x - pong.size) < leftwall) { // left
+        pong.vx *= -1;
+        pong.x = (leftwall + pong.size);
+      }
+      if ((pong.y - pong.size) < 0){ // top
+        pscore += 1;
+        scoreElement.textContent = `${pscore} - ${escore}`;
+
+        if (debug) {
+        pong.vy *= -1;
+        pong.y = pong.size;
+        } else {
+          pong.spawnedin = false;
+        }
+      }
+      if ((pong.y + pong.size) > windowheight){ // bottom
+        escore += 1;
+        scoreElement.textContent = `${pscore} - ${escore}`;
+
+        if (debug) {
+        pong.vy *= -1;
+        pong.y = windowheight - pong.size;
+        } else {
+          pong.spawnedin = false;
+        }
+      }
+
+      // collision detection between paddles and walls
+      if (playerpaddle.x < leftwall) playerpaddle.x = leftwall;
+      if (playerpaddle.x > rightwall - playerpaddle.len) playerpaddle.x = rightwall - playerpaddle.len;
+      if (enemypaddle.x < leftwall) enemypaddle.x = leftwall;
+      if (enemypaddle.x > rightwall - enemypaddle.len) enemypaddle.x = rightwall - enemypaddle.len;
+
+
+ 
+
+
+
+
+
+
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // clears screen
+
+      ctx.fillStyle = 'black';
+
+      if (pong.drawn){
+        ctx.beginPath();
+        ctx.arc(pong.x, pong.y, pong.size, 0, Math.PI * 2); // draw pong ball
+        ctx.fill();
+      }
+
+
+      ctx.fillRect(playerpaddle.x, playerpaddle.y, playerpaddle.len, playerpaddle.height); // draw player paddle , x, y is the top left !!!
+      ctx.fillRect(enemypaddle.x, enemypaddle.y, enemypaddle.len, enemypaddle.height); // enemy paddle
+
+
+      ctx.fillRect(leftwall - 3, 0, 3, windowheight); // draw boundaries
+      ctx.fillRect(rightwall, 0, 3, windowheight);
+
+      playerpaddle.movedleft = false;
+      playerpaddle.movedright = false;
+
+      boucecooldown = Math.max(0, boucecooldown - 1);
+	    keysPressed = {};
+      requestAnimationFrame(gameLoop);
+        if (debug) {
+      ctx.fillStyle = 'red';
+
+      ctx.beginPath();
+      ctx.arc(points[0][0], points[0][1], 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(points[1][0], points[1][1], 4, 0, Math.PI * 2);
+      ctx.fill();
+      }
+
+    }
+
+    gameLoop();
+
+
+  </script>
+</body>
+</html>
