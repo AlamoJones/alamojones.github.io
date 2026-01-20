@@ -3,8 +3,33 @@
 <head>
     <link rel="stylesheet" href="/style.css">
     <title>b's p</title>
+    <style>
+        @media (min-height: 700px) and (max-height: 1200px) {
+            #img-004 {
+                max-height: calc(100vh - 552px - 10px) !important;
+            }
+            #img-001 {
+                max-height: calc(100vh - 555px - 10px) !important;
+            }
+            #img-002 {
+                max-height: calc(100vh - 734px - 10px) !important;
+            }
+            #img-010 {
+                max-height: calc(100vh - 460px - 34px) !important;
+            }
+            #posts-link {
+                top: calc(100vh - 45px) !important;
+            }
+            #games-link {
+                top: calc(100vh - 45px) !important;
+            }
+            #email {
+                top: calc(100vh - 30px) !important;
+            }
+        }
+    </style>
 </head>
-<body>
+<body style="overflow: hidden;">
 
 <img src="/imgs/index/img_012.jpg" width="311px" height="194px"  style="position: absolute; left: 10px;   top: 10px; object-fit: cover;">
 
@@ -24,13 +49,13 @@
 
 <img src="/imgs/index/img_008.jpg" width="380px" height=""       style="position: absolute; left: 1320px; top: 317px;">
 
-<img src="/imgs/index/img_010.jpg" width="650px" height="506px"  style="position: absolute; left: 331px;  top: 460px; object-fit: cover; object-position: bottom;">
+<img src="/imgs/index/img_010.jpg" width="650px" height="506px"  id="img-010" style="position: absolute; left: 331px;  top: 460px; object-fit: cover; object-position: top;">
 
-<img src="/imgs/index/img_004.jpg" width="311px" height="438px"  style="position: absolute; left: 10px;   top: 552px; object-fit: cover;">
+<img src="/imgs/index/img_004.jpg" width="311px" height="438px"  id="img-004" style="position: absolute; left: 10px;   top: 552px; object-fit: cover; object-position: top;">
 
-<img src="/imgs/index/img_001.jpg" width="319px" height="435px"  style="position: absolute; left: 991px;  top: 555px; object-fit: cover;">
+<img src="/imgs/index/img_001.jpg" width="319px" height="435px"  id="img-001" style="position: absolute; left: 991px;  top: 555px; object-fit: cover; object-position: top;">
 
-<img src="/imgs/index/img_002.jpg" width="380px" height="256px"  style="position: absolute; left: 1320px; top: 734px; object-fit: cover;">
+<img src="/imgs/index/img_002.jpg" width="380px" height="256px"  id="img-002" style="position: absolute; left: 1320px; top: 734px; object-fit: cover; object-position: top;">
 
 
 <h1 style="position: absolute; left: 60px; top: 180px; font-size: 45px;">
@@ -41,10 +66,10 @@
 </h1>
 
 
-<p style="position: absolute; left: 930px; top: 955px; font-size: 15px;">
+<p id="posts-link" style="position: absolute; left: 930px; top: 955px; font-size: 15px;">
 	<a href="/posts/index.html">Posts</a>
 </p>
-<p style="position: absolute; left: 670px; top: 955px; font-size: 15px;">
+<p id="games-link" style="position: absolute; left: 670px; top: 955px; font-size: 15px;">
 	<a href="/games/index.html">Games</a>
 </p>
 
