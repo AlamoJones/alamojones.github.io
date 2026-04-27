@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="/style.css">
+	<title>b's p</title>
+</head>
+<body>
+	<h1><a href="/writing/index.html" class="title">Boswell at the Zoo</a></h1>
+	<div class="content">
+	<h3 style="margin-bottom: 0;">My Life's Work</h3>
+	<h4 style="margin-top: 0; font-weight: normal;">April 26, 2026</h4>
+
+	<p>
+		When I was in second grade, my dad got an iPad, and would eventually come to allow my brother and I to use it with litle to no restriction. My parents were divorced, so this meant that Wednesdays and Saturdays I would have access to all the games and videos I wanted, but the other five days of the week I was stuck with like 30 minutes of Netflix a day. I would spend many idling hours thinking about my Clash of Clans base, sometimes calling my dad to walk him through the buttons to press to start an upgrade or train up some troops.
+	</p>
+	<p>
+		My internet use to that point was mostly games and youtube videos about games. In middle school, when I got a school issued chromebook, and a personal iPhone soon after, this changed. I started spending more time on forums, but most of my internet activity was through youtube. I would spend almost every night up until 3am watching videos on my chromebook, being careful not to wake my mom in the next room over. My social life and social abilities were each subpar, and it's not hard to connect the dots in retrospect.
+	</p>
+	<p>
+		My first year of high school was interupted by covid-19. I wasn't doing very well already, and ended up youtube-maxxing, having some sort of stimulation on all of the school day, be it through my phone or my computer. I ended up failing my freshman year, and transfered to a private school. I'm not sure if the requirements were more lenient there, or if I was scared sraight (I was surely deathly embarrased about my failing, and my attendence of the private school), but I got through with a 3.4ish GPA, taking the harder track for math and physics, which i did better in than other classes. I thought very much about studying for the SAT<sup><a href="#fn1">1</a></sup>, but did not, and got a decent score. I loathed the idea of college applications, and ended up throwing out an early decision to a liberal arts, $70,000 / year, top 20 engineering school, and delayed any other applications until my acceptance came in. I wasn't even interested in the school or the area - my mom had wanted me to apply, and she was paying and more invested than I seemed to be.
+	</p>
+	<p>
+		At college, hours away from my parents, my schedule really devolved - worried about my perception taking 101 classes as I fancied myself a sevant, and all these people paying $70,000 / year sheeps, I ended up skipping them all, and of course failing. I was  academically suspended that summer.
+	</p>
+	<p>
+		These 10 years of my life were an unnatural, uncurious, unreflexive, sedentary, miserable development. The depth of my addiction and lack of interest in anything a resembling healthy behavior are hard to overstate. 
+	</p>
+	<h3>Odysseus</h3>
+	<p>
+		It hasn't been a full year since I was suspended, but I have made a good shot at recover since. Much of this work was trying to start a fire by kicking rocks and punching trees - the from here to there was slow and meandering and indirect, but the displacement in the end was not as much as I may had expected (this may be discounting physiological and behavioral changes which were more profound, but required less direct focus). Hopefully that makes my summary more useful.
+	</p>
+	<p>
+		I've spent much time and effort agonizing over my will to power, focusing on discipline based approaches to sobriety which did not work. I wrote about it a little <a href="/writing/thoughts_on_writing.html">here</a>, but the meme of a stoic hero with absolute will to power is pernicious, and applying it to my goals was totally ineffective, though I took a while to reflect and realize this. My solution is instead structural and systems-based, rather than changing my own wants. This is not perfect, *but the counterfactual isn't either - in fact it is much worse!*
+	</p>
+	<p>
+		A last lesson I've learned before I outline the actual system I use: I have had many iterations of systems over the last months, with decreasingly less freedeom and access to information. I held out on mainting many aspects for long periods of time, but have found each and every time that, as hard as it is to restrict some site or feature or whatever, it has been correct each time. I'm sure that this is still true, and that I would be better off removing X, Y and Z right now! I think one might read this and think it's overkill, but in my case the point is that this is a major lifestyle change, and compromise is not needed here, if implimented correctly. Giving up information, freedom and ability may sound bad - but this is your computer life, and you should be considering your real life, where you gain these all back in spades.
+	</p>
+	<p>
+		So, to get in to specifics: I have a Mac and an iPhone, but my solution on my Mac can easily be done on any linux machine, and probably elsewhere, probably the same is true of my approach on my phone. If you dont understand what I'm suggesting, I think that this is OK - while it's not smart to impliment systems you don't understand on your computer generally, here there are positives. AI is capable and helpful in this regard.
+		<br>
+		On my Mac, my normal user has been demoted to a non-admin, and I have a new, sole admin user, who's account is password protected - the same password which is used for my apple ID, too. I have a launch daemon, which runs every second and kills all apps with certain names, most importantly Safari, but also News, Podcasts, and other Mac native, un-deletable apps. The goal with removing safari access is to funnel all internet use to Firefox, where I have a policies.json file which: disables all videos, disables incognito mode, and forces the installation and removes the ability to disable a certain extention. This extention is some bespoke but simple HTML which simply checks every time a url is accessed, if it fits some patterns. If it does, or if it's between 9pm and 7am, the site is not shown. You can open the extention and enter a url to add to the list whenever you'd like. The daemon, policies.json, and my /etc/hosts file are all owned by root and not editable, but the hosts file has an sappnd chflag, which allows anyone to append lines to it, so one can add run: "echo "127.0.0.1 site.com" >> /etc/hosts" whenever.
+		<br>
+		On my iPhone, I simply use parental controls through "Content and Restrictions" to allow only whitelisted urls to be accessed via browsers, and make the list empty, then require apple ID permission to download any apps.
+		<br>
+		The password is a randomly generated string of 20 characters - I keep the first half on campus, in the school library in the middle of a random (but remembered) book, and the other half at home, 30 minutes away.
+	</p>
+	<p>
+		This is all it takes for me to be more annoyed overcoming restrictions than twiddling my thumbs, and so it sticks. Some more notes, though: I've had to prune my internet access elsewhere, too. Get rid of any other machines you have, anywhere you may be able to access garbage. This is not easy, but it really is worth it. There have been moments of realizing that I can just say I will do something, and then actually do it, which have made me cry. I have fought for a large part of my freedom back, and am wildly proud. My email is on my home page if you have any questions.
+	</p>
+	<ol>
+  		<li id="fn1">I want to say that it's easy to look at my past and say that I wasn't trying, or I didn't care: my output looks about the same as someone for which those claims are true. But I really did hate myself for what I was and wasn't doing. I would regularly stay up until 5am agonozing over tabbing over to complete an assignment due the next day, and never do it. I willed myself many times to go to the library, or living room, or wherever, and actually put my head down and study, but never could - I would always be tempted to return to stimulation, and probably didn't know how to study, anyways.</li>
+	</ol>
+</html>
+
