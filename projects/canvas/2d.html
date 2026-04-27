@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    * { margin: 0; padding: 0; }
+    body { overflow: hidden; }
+  </style>
+  <title>Alamo Jones</title>  
+</head>
+
+
+<body>
+  <h1 style="position: absolute; top: 20px; left: 20px;"><a href="/" class="title">Alamo Jones</a></h1>
+
+  <canvas id="myCanvas"></canvas>
+
+  <script>
+
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let windowwidth = window.innerWidth;
+    let windowheight = window.innerHeight;
+
+    let coln = 10;
+    let rown = coln;
+
+    let width = windowwidth / coln;
+    let height = windowheight / rown;
+
+
+    // arrow movement 
+    let offsety = 0;
+    let offsetx = 0;
+    let tockx = 0;
+    let tocky = 0;
+
+    const keys = {};
+    window.addEventListener('keydown', (e) => keys[e.key] = true);
+    window.addEventListener('keyup', (e) => keys[e.key] = false);
+
+    // mouse movement
+    let isPanning = false;
+    let startX, startY;
+    let mouseOffsetX = 0;
+    let mouseOffsetY = 0;
+
+    canvas.addEventListener('mousedown', (e) => {
+      isPanning = true;
+      startX = e.clientX - mouseOffsetX;
+      startY = e.clientY - mouseOffsetY;
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (!isPanning) return;
+      offsetx += e.clientX - startX;
+      offsety += e.clientY - startY;
+      startX = e.clientX;
+      startY = e.clientY;
+    });
+
+    canvas.addEventListener('mouseup', () => isPanning = false);
+    canvas.addEventListener('mouseleave', () => isPanning = false);
+
+    function loop(){
+
+      let dx = 0;
+      let dy = 0;
+
+
+
+      if (keys['ArrowUp']) dy += 3;
+      if (keys['ArrowDown']) dy -= 3;
+      if (keys['ArrowLeft']) dx += 3;
+      if (keys['ArrowRight']) dx -= 3;
+
+      offsetx += dx;
+      offsety += dy;
+
+      if (Math.abs(offsetx) > width){
+        offsetx = offsetx % width;
+        tockx +=1;
+      }
+
+      if (Math.abs(offsety) > height){
+        offsety = offsety % height;
+        tocky +=1;
+      }
+
+      
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let j = -1; j < (rown + 1); j++){
+        for (let i = -1; i < (coln + 1); i++) {
+          if ((i + j + tocky + tockx) % 2 === 0){
+            ctx.fillStyle = 'rgb(0, 100, 220)';
+          } else {
+            ctx.fillStyle = 'rgb(255, 225, 0)';
+          }
+
+          ctx.fillRect((i * width) + offsetx + mouseOffsetX, (j * height) + offsety + mouseOffsetY, width, height);
+        }
+      }
+
+      requestAnimationFrame(loop);
+
+    }
+    loop()
+    
+
+
+  </script>
+
+</body>
+
+</html>

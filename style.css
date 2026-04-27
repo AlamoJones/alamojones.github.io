@@ -1,20 +1,22 @@
 body {
 	font-family: 'Times New Roman';
-	line-height: 1.6;
+	line-height: 1.3;
 }
 
 .content {
+	font-size:14px;
 	margin: 40px auto;
-	max-width: 750px;
+	max-width: 550px;
 	padding: 0 10px;
 }
+
 
 .title {
 	margin: 40px auto;
 	max-width: 750px;
 	padding: 0 10px;
-    color: inherit !important;
-    text-decoration: none !important;
+	color: inherit !important;
+	text-decoration: none !important;
 }
 
 img {

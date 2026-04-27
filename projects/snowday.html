@@ -3,16 +3,48 @@
 <head>
 	<link rel="stylesheet" href="/style.css">
 	<title>Alamo Jones</title>
+	<style>
+	</style>
 </head>
 <body>
 	<h1><a href="/" class="title">Alamo Jones</a></h1>
 	<div class="content">
 
-		<h1>Snowday</h1>
-		<p>Febuary 22-23, 2026, Rhode Island</p>
+		<h1 style="margin-bottom: 0;">Snowday</h1>
+		<div style="margin-top: 0.25em;">Febuary 22-23, 2026, Rhode Island</div>
+
+		<hr>
+
+		<p>
+			With a looming snowstorm and an idling Raspberry Pi, I wanted to try to capture a timelapse of the snowfall. To do so, I had to consider some constraints:
+		</p>
+		<ol>
+			<li> 
+
+
+
+
+<details>
+  <summary>Click to view script</summary>
+  <pre style="overflow-x: auto;"><code style="font-size: 0.8em;">#!/bin/bash
+DIR="$HOME/dev/snowday/out"
+n=0
+while true; do
+TIME=$(date +%d_%H%M%S)
+printf -v n_pad "%05d" $n
+rpicam-still -o "$DIR/frame_${n_pad}_${TIME}.jpg" --nopreview -t 1 --quality 100 --denoise off --raw
+let n++
+sleep 30
+done
+  </code></pre>
+</details>
+
+		<img src="/imgs/snowday/IMG_4215.jpg" width="300px" style="display: block; margin-left: 0; margin-right: auto;">
+
 		<video controls muted playsinline style="width: 500px">
-			<source src="/imgs/snowday_hq.mp4" type="video/mp4">
+				<source src="/imgs/snowday/snowday_hq.mp4" type="video/mp4">
 		</video>
+
 	</div>
 
 
