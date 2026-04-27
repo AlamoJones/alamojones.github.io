@@ -5,7 +5,7 @@
 	<title>b's p</title>
 </head>
 <body>
-	<h1><a href="/writing/index.html" class="title">Boswell at the Zoo</a></h1>
+	<h1><a href="/writing/index.html" class="title">Alamo Jones' Writings</a></h1>
 	<div class="content">
 	<h3 style="margin-bottom: 0;">My Life's Work</h3>
 	<h4 style="margin-top: 0; font-weight: normal;">April 26, 2026</h4>
@@ -37,11 +37,14 @@
 	</p>
 	<p>
 		So, to get in to specifics: I have a Mac and an iPhone, but my solution on my Mac can easily be done on any linux machine, and probably elsewhere, probably the same is true of my approach on my phone. If you dont understand what I'm suggesting, I think that this is OK - while it's not smart to impliment systems you don't understand on your computer generally, here there are positives. AI is capable and helpful in this regard.
-		<br>
+	</p>
+	<p>
 		On my Mac, my normal user has been demoted to a non-admin, and I have a new, sole admin user, who's account is password protected - the same password which is used for my apple ID, too. I have a launch daemon, which runs every second and kills all apps with certain names, most importantly Safari, but also News, Podcasts, and other Mac native, un-deletable apps. The goal with removing safari access is to funnel all internet use to Firefox, where I have a policies.json file which: disables all videos, disables incognito mode, and forces the installation and removes the ability to disable a certain extention. This extention is some bespoke but simple HTML which simply checks every time a url is accessed, if it fits some patterns. If it does, or if it's between 9pm and 7am, the site is not shown. You can open the extention and enter a url to add to the list whenever you'd like. The daemon, policies.json, and my /etc/hosts file are all owned by root and not editable, but the hosts file has an sappnd chflag, which allows anyone to append lines to it, so one can add run: "echo "127.0.0.1 site.com" >> /etc/hosts" whenever.
-		<br>
+	</p>
+	<p>
 		On my iPhone, I simply use parental controls through "Content and Restrictions" to allow only whitelisted urls to be accessed via browsers, and make the list empty, then require apple ID permission to download any apps.
-		<br>
+	</p>
+	<p>
 		The password is a randomly generated string of 20 characters - I keep the first half on campus, in the school library in the middle of a random (but remembered) book, and the other half at home, 30 minutes away.
 	</p>
 	<p>
